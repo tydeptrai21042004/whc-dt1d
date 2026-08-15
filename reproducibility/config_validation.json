@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "proposal": {
+    "method_key": "dt1d",
+    "name": "DT1D-Adapter",
+    "architecture": "R124-P2-G16-Axis-LearnedGate"
+  },
+  "main_experiments": 15,
+  "reviewer_ablation_experiments": 2,
+  "main_method_rows": 127,
+  "ablation_method_rows": 22,
+  "parser_validated_method_seed_configs": 447,
+  "dense_experiments": 6,
+  "dense_parser_validated_method_seed_configs": 108,
+  "ablation_dataset_backbone_pairs": [
+    [
+      "dtd",
+      "resnet18"
+    ],
+    [
+      "flowers102",
+      "resnet50"
+    ]
+  ],
+  "protocol": "one shared LR per method selected by mean validation across seeds; test once per seed"
+}

@@ -1,0 +1,28 @@
+{
+  "schema_version": 3,
+  "official_independent_seeds": [
+    0,
+    1,
+    2
+  ],
+  "aggregation": {
+    "center": "arithmetic mean",
+    "dispersion": "sample standard deviation",
+    "ddof": 1,
+    "minimum_required_runs": 3
+  },
+  "paired_comparison_rule": "For a fixed experiment and seed, every method uses the same dataset partition, preprocessing, training budget, and data-order seed.",
+  "hyperparameter_selection_rule": "For each method, one learning rate is selected by mean best-validation Acc1 across seeds 0,1,2; the lower LR breaks exact ties. Each seed then uses its own best-validation checkpoint at that shared LR and evaluates test once.",
+  "test_selection_rule": "The test split is not loaded during LR search and is never used to select LR or checkpoint.",
+  "rng_sources": [
+    "python.random",
+    "numpy",
+    "torch CPU",
+    "torch CUDA",
+    "sampler",
+    "DataLoader workers",
+    "model initialization",
+    "augmentation",
+    "generated train/validation split"
+  ]
+}

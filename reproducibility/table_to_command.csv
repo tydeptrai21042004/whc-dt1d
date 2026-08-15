@@ -1,0 +1,20 @@
+item,target,command,seeds,scope
+Table 5,table_05,python tools/run_experiment.py configs/experiments/table_05.yaml --data-path ./data --device cuda,"0,1,2",CNN classification
+Table 9,table_09,python tools/run_experiment.py configs/experiments/table_09.yaml --data-path ./data --device cuda,"0,1,2",CNN classification
+Table 12,table_12,python tools/run_experiment.py configs/experiments/table_12.yaml --data-path ./data --device cuda,"0,1,2",CNN classification
+Figure 4,figure_04,python tools/run_experiment.py configs/experiments/figure_04.yaml --data-path ./data --device cuda,"0,1,2",CNN classification
+"Tables 14,15",table_14_15,python tools/run_experiment.py configs/experiments/table_14_15.yaml --data-path ./data --device cuda,"0,1,2",CNN classification
+Figure 1,figure_01,python tools/run_experiment.py configs/experiments/figure_01.yaml --data-path ./data --device cuda,"0,1,2",CNN classification
+Table 6,table_06,python tools/run_experiment.py configs/experiments/table_06.yaml --data-path ./data --device cuda,"0,1,2",CNN classification
+Table 3,table_03,python tools/run_experiment.py configs/experiments/table_03.yaml --data-path ./data --device cuda,"0,1,2",CNN classification
+Table 4,table_04,python tools/run_experiment.py configs/experiments/table_04.yaml --data-path ./data --device cuda,"0,1,2",CNN classification
+"Tables 18,19",table_18_19,python tools/run_experiment.py configs/experiments/table_18_19.yaml --data-path ./data --device cuda,"0,1,2",CNN classification
+Table 7,table_07,python tools/run_experiment.py configs/experiments/table_07.yaml --data-path ./data --device cuda,"0,1,2",CNN classification
+Table 13,table_13,python tools/run_experiment.py configs/experiments/table_13.yaml --data-path ./data --device cuda,"0,1,2",CNN classification
+Table 8,table_08,python tools/run_experiment.py configs/experiments/table_08.yaml --data-path ./data --device cuda,"0,1,2",CNN classification
+Table 11,table_11,python tools/run_experiment.py configs/experiments/table_11.yaml --data-path ./data --device cuda,"0,1,2",CNN classification
+Table 10,table_10,python tools/run_experiment.py configs/experiments/table_10.yaml --data-path ./data --device cuda,"0,1,2",CNN classification
+Reviewer ablation,ablation_dtd_resnet18,python tools/run_experiment.py configs/experiments/ablation_dtd_resnet18.yaml --data-path ./data --device cuda,"0,1,2",Reviewer component isolation
+Reviewer ablation,ablation_flowers102_resnet50,python tools/run_experiment.py configs/experiments/ablation_flowers102_resnet50.yaml --data-path ./data --device cuda,"0,1,2",Reviewer component isolation
+Figure 2,deterministic,python tools/plot_figure_02_spectral.py,N/A,Deterministic mathematical plot
+Figure 3,deterministic,python tools/plot_figure_03_architecture.py,N/A,Architecture diagram

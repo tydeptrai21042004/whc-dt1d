@@ -1,0 +1,37 @@
+{
+  "proposal": "DT1D-Adapter",
+  "architecture": "R124-P2-G16-Axis-LearnedGate",
+  "fixed_architecture": {
+    "axes": "hw",
+    "group_size": 16,
+    "base_offsets": [
+      1,
+      2,
+      4
+    ],
+    "detail": "psi4",
+    "shift_p": 2,
+    "lambda_scope": "axis",
+    "lambda_mode": "learned",
+    "lambda_init": 0.0,
+    "lambda_max": 0.5,
+    "joint_l1_cap": 1.0,
+    "gate_mode": "learned",
+    "gate_init": 0.01,
+    "pointwise": false,
+    "padding": "replicate",
+    "effective_kernel": 13,
+    "conv_calls": 2
+  },
+  "numerical": {
+    "joint_l1_max": 1.000000238418579,
+    "lambda_grad_l1": 0.00025754558737389743,
+    "gate_grad_abs": 0.07707948982715607,
+    "weighted_convolution_max_error": 4.440892098500626e-16,
+    "spectral_identity_max_error": 1.389554002205336e-14
+  },
+  "parameter_check": {
+    "c64": 43,
+    "resnet18_dt1d_adapter": 1224
+  }
+}
