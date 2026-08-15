@@ -1,0 +1,34 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+  "@type": "SoftwareSourceCode",
+  "name": "DT1D-Adapter",
+  "description": "Single-proposal DT1D-Adapter reproducibility package with one shared learning rate per method selected by mean validation performance across seeds, test-once evaluation, and reviewer ablations.",
+  "version": "1.7.2",
+  "datePublished": "2026-08-15",
+  "codeRepository": "https://github.com/tydeptrai21042004/DT1D-Adapter-Lightweight-Axial-Filtering-for-Parameter-Efficient-Fine-Tuning-of-Visual-Backbones",
+  "license": "https://spdx.org/licenses/Apache-2.0",
+  "programmingLanguage": "Python",
+  "runtimePlatform": "Python and PyTorch",
+  "author": [
+    {
+      "@type": "Person",
+      "givenName": "Kim Huong",
+      "familyName": "Tran",
+      "@id": "https://orcid.org/0009-0006-3211-4274"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Ba Ty",
+      "familyName": "Dang",
+      "@id": "https://orcid.org/0009-0007-3223-0248"
+    }
+  ],
+  "keywords": [
+    "parameter-efficient fine-tuning",
+    "visual adaptation",
+    "axial filtering",
+    "vision transformer",
+    "ConvNet",
+    "reproducibility"
+  ]
+}
