@@ -1,0 +1,66 @@
+schema_version: 2
+experiment_id: binary_vit_pennfudan
+kind: dense_feasibility
+description: Self-contained dense-prediction feasibility experiment. DT1D-Adapter is the only proposal; all other rows are baselines under the same target-level training budget.
+seeds:
+- 0
+- 1
+- 2
+task: binary_segmentation
+pipeline: vit_b16_dense
+dataset: pennfudan
+data_subdir: PennFudanPed
+num_classes: 1
+input_size: 224
+epochs: 100
+batch_size: 8
+fairness:
+  checkpoint_selection: best_validation_metric
+  test_used_for_selection: false
+  evaluate_test_once: true
+  same_epoch_budget: true
+  same_batch_size_within_experiment: true
+  same_seed_and_split_within_seed: true
+  same_preprocessing: true
+  same_optimizer: AdamW
+  same_scheduler: CosineAnnealingLR
+  same_learning_rate: true
+common_args:
+  pretrained: true
+  download: false
+  num_workers: 4
+  pin_mem: true
+  lr: 0.001
+  weight_decay: 0.0001
+  use_amp: true
+  deterministic: true
+  save_checkpoint: true
+  profile_latency: true
+  latency_warmup: 3
+  latency_iterations: 10
+  max_train_samples: 0
+  max_val_samples: 0
+  max_test_samples: 0
+methods:
+  linear:
+    label: Linear probing
+    args:
+      tuning_method: linear
+  bitfit:
+    label: BitFit
+    args:
+      tuning_method: bitfit
+  dt1d:
+    label: DT1D-Adapter
+    args:
+      tuning_method: dt1d
+      cache_dt1d: true
+  full:
+    label: Full fine-tuning
+    args:
+      tuning_method: full
+method_order:
+- linear
+- bitfit
+- dt1d
+- full

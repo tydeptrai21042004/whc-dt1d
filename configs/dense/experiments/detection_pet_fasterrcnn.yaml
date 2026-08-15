@@ -1,0 +1,73 @@
+schema_version: 2
+experiment_id: detection_pet_fasterrcnn
+kind: dense_feasibility
+description: Self-contained dense-prediction feasibility experiment. DT1D-Adapter is the only proposal; all other rows are baselines under the same target-level training budget.
+seeds:
+- 0
+- 1
+- 2
+task: detection
+pipeline: fasterrcnn_mobilenet_v3_fpn
+dataset: oxford_pet_detection
+data_subdir: ''
+num_classes: 2
+input_size: 320
+epochs: 1
+batch_size: 1
+fairness:
+  checkpoint_selection: best_validation_metric
+  test_used_for_selection: false
+  evaluate_test_once: true
+  same_epoch_budget: true
+  same_batch_size_within_experiment: true
+  same_seed_and_split_within_seed: true
+  same_preprocessing: true
+  same_optimizer: AdamW
+  same_scheduler: CosineAnnealingLR
+  same_learning_rate: true
+common_args:
+  pretrained: true
+  download: false
+  num_workers: 4
+  pin_mem: true
+  lr: 0.001
+  weight_decay: 0.0001
+  use_amp: true
+  deterministic: true
+  save_checkpoint: true
+  profile_latency: true
+  latency_warmup: 3
+  latency_iterations: 10
+  max_train_samples: 0
+  max_val_samples: 0
+  max_test_samples: 80
+methods:
+  head_only:
+    label: Head-only
+    args:
+      tuning_method: head_only
+  dt1d:
+    label: DT1D-Adapter
+    args:
+      tuning_method: dt1d
+      cache_dt1d: true
+  bam:
+    label: BAM
+    args:
+      tuning_method: bam
+      adapter_reduction: 16
+  conv_adapter:
+    label: Conv-Adapter
+    args:
+      tuning_method: conv_adapter
+      adapter_reduction: 4
+  full:
+    label: Full fine-tuning
+    args:
+      tuning_method: full
+method_order:
+- head_only
+- dt1d
+- bam
+- conv_adapter
+- full

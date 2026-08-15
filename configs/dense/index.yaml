@@ -1,0 +1,13 @@
+schema_version: 2
+proposal:
+  method_key: dt1d
+  name: DT1D-Adapter
+  architecture: R124-P2-G16-Axis-LearnedGate
+experiments:
+- binary_vit_drive
+- binary_deeplab_drive
+- semantic_pet_deeplab
+- binary_vit_pennfudan
+- binary_deeplab_pennfudan
+- detection_pet_fasterrcnn
+protocol: one self-contained YAML per dense experiment; no generated per-seed YAML configs; validation checkpoint selection; test once

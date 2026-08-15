@@ -1,0 +1,25 @@
+schema_version: 4
+proposal:
+  method_key: dt1d
+  name: DT1D-Adapter
+  architecture: R124-P2-G16-Axis-LearnedGate
+main_experiments:
+- table_05
+- table_09
+- table_12
+- figure_04
+- table_14_15
+- figure_01
+- table_06
+- table_03
+- table_04
+- table_18_19
+- table_07
+- table_13
+- table_08
+- table_11
+- table_10
+reviewer_ablations:
+- ablation_dtd_resnet18
+- ablation_flowers102_resnet50
+protocol: one self-contained YAML per experiment; one shared LR per method selected by mean validation across seeds; test once per seed

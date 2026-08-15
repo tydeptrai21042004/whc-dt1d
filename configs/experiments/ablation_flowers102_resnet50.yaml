@@ -1,0 +1,306 @@
+schema_version: 4
+experiment_id: ablation_flowers102_resnet50
+kind: ablation
+manuscript_tables:
+- ablation
+manuscript_figures: []
+description: Controlled DT1D-Adapter component ablation. DT1D-Adapter is the only
+  proposal; all other rows are reviewer controls, not alternative proposal methods.
+  Each row uses the same seeds, split, epoch budget, preprocessing, optimizer/scheduler,
+  and validation-only LR grid.
+seeds:
+- 0
+- 1
+- 2
+dataset: flowers102
+backbone: resnet50
+epochs: 10
+batch_size: 128
+fairness:
+  protocol: reviewer_ablation_validation_only_lr_selection
+  lr_candidates:
+  - 0.0003
+  - 0.001
+  - 0.005
+  selection_metric: best_val_acc1
+  selection_mode: max
+  tie_break: lower_lr
+  lr_selection_scope: method_across_seeds
+  lr_aggregation: mean_best_val_acc1
+  evaluate_test_once: true
+  test_used_for_selection: false
+  same_lr_grid_for_all_methods: true
+  same_epoch_budget: true
+  same_batch_size_within_experiment: true
+  same_seed_and_split_within_seed: true
+  same_preprocessing: true
+  same_optimizer: AdamW
+  same_scheduler: cosine
+  keep_unselected_checkpoints: false
+common_args:
+  data_path: data
+  device: cuda
+  weights: DEFAULT
+  input_size: 224
+  imagenet_norm: true
+  imagenet_default_mean_and_std: true
+  update_freq: 1
+  deterministic: true
+  num_workers: 2
+  use_amp: true
+  pin_mem: true
+  dist_eval: false
+  final_test: true
+  save_history: true
+  save_ckpt: true
+  auto_resume: false
+  profile_efficiency: true
+  profile_batch_size: 16
+  measure_eval_latency: true
+  enable_wandb: false
+  val_ratio: 0.2
+  min_lr: 1.0e-06
+  warmup_epochs: 0
+  weight_decay: 0.0001
+  weight_decay_dt1d: 0.0001
+args: {}
+methods:
+  dt1d:
+    label: DT1D-Adapter (final)
+    args:
+      tuning_method: dt1d
+      freeze_backbone: true
+      dt_cache_kernel: true
+  dt1d_no_weighted_shift:
+    label: DT1D core without weighted shift
+    reviewer_control: true
+    args:
+      tuning_method: dt1d_ablation
+      freeze_backbone: true
+      dt_cache_kernel: true
+      ablation_shift_lambda_mode: 'off'
+      ablation_shift_lambda_init: 0.0
+  dt1d_no_l1_projection:
+    label: DT1D core without joint L1 projection
+    reviewer_control: true
+    args:
+      tuning_method: dt1d_ablation
+      freeze_backbone: true
+      dt_cache_kernel: true
+      ablation_project_l1: false
+  routing_reference:
+    label: 'Reviewer routing control: shifted/shared/HW/learned/multi-dilation'
+    reviewer_control: true
+    args:
+      tuning_method: reviewer_routing
+      freeze_backbone: true
+      dt_axis: hw
+      reviewer_order: 2
+      reviewer_dilations: 1,2,4
+      reviewer_group_size: 16
+      reviewer_shifted: true
+      reviewer_routing: learned_softmax
+      reviewer_temperature: 1.0
+      reviewer_normalize_l1: true
+      dt_gate_mode: learned
+      dt_gate_init: 0.01
+      dt_padding: replicate
+      dt_use_pointwise: false
+      dt_pw_ratio: 32
+      dt_pw_groups: 4
+      dt_use_bn: false
+      adapt_scale: 1.0
+  direct_symmetric:
+    label: Direct symmetric filtering (no shift)
+    reviewer_control: true
+    args:
+      tuning_method: reviewer_routing
+      freeze_backbone: true
+      dt_axis: hw
+      reviewer_order: 2
+      reviewer_dilations: 1,2,4
+      reviewer_group_size: 16
+      reviewer_shifted: false
+      reviewer_routing: learned_softmax
+      reviewer_temperature: 1.0
+      reviewer_normalize_l1: true
+      dt_gate_mode: learned
+      dt_gate_init: 0.01
+      dt_padding: replicate
+      dt_use_pointwise: false
+      dt_pw_ratio: 32
+      dt_pw_groups: 4
+      dt_use_bn: false
+      adapt_scale: 1.0
+  unshared_coefficients:
+    label: Unshared per-channel axial coefficients
+    reviewer_control: true
+    args:
+      tuning_method: reviewer_routing
+      freeze_backbone: true
+      dt_axis: hw
+      reviewer_order: 2
+      reviewer_dilations: 1,2,4
+      reviewer_group_size: 1
+      reviewer_shifted: true
+      reviewer_routing: learned_softmax
+      reviewer_temperature: 1.0
+      reviewer_normalize_l1: true
+      dt_gate_mode: learned
+      dt_gate_init: 0.01
+      dt_padding: replicate
+      dt_use_pointwise: false
+      dt_pw_ratio: 32
+      dt_pw_groups: 4
+      dt_use_bn: false
+      adapt_scale: 1.0
+  height_only:
+    label: Single-axis filtering (H only)
+    reviewer_control: true
+    args:
+      tuning_method: reviewer_routing
+      freeze_backbone: true
+      dt_axis: h
+      reviewer_order: 2
+      reviewer_dilations: 1,2,4
+      reviewer_group_size: 16
+      reviewer_shifted: true
+      reviewer_routing: learned_softmax
+      reviewer_temperature: 1.0
+      reviewer_normalize_l1: true
+      dt_gate_mode: learned
+      dt_gate_init: 0.01
+      dt_padding: replicate
+      dt_use_pointwise: false
+      dt_pw_ratio: 32
+      dt_pw_groups: 4
+      dt_use_bn: false
+      adapt_scale: 1.0
+  fixed_average_routing:
+    label: Fixed axis-scale averaging
+    reviewer_control: true
+    args:
+      tuning_method: reviewer_routing
+      freeze_backbone: true
+      dt_axis: hw
+      reviewer_order: 2
+      reviewer_dilations: 1,2,4
+      reviewer_group_size: 16
+      reviewer_shifted: true
+      reviewer_routing: fixed_average
+      reviewer_temperature: 1.0
+      reviewer_normalize_l1: true
+      dt_gate_mode: learned
+      dt_gate_init: 0.01
+      dt_padding: replicate
+      dt_use_pointwise: false
+      dt_pw_ratio: 32
+      dt_pw_groups: 4
+      dt_use_bn: false
+      adapt_scale: 1.0
+  single_dilation:
+    label: Single dilation (d=1)
+    reviewer_control: true
+    args:
+      tuning_method: reviewer_routing
+      freeze_backbone: true
+      dt_axis: hw
+      reviewer_order: 2
+      reviewer_dilations: '1'
+      reviewer_group_size: 16
+      reviewer_shifted: true
+      reviewer_routing: learned_softmax
+      reviewer_temperature: 1.0
+      reviewer_normalize_l1: true
+      dt_gate_mode: learned
+      dt_gate_init: 0.01
+      dt_padding: replicate
+      dt_use_pointwise: false
+      dt_pw_ratio: 32
+      dt_pw_groups: 4
+      dt_use_bn: false
+      adapt_scale: 1.0
+  gate_off:
+    label: Residual gate disabled
+    reviewer_control: true
+    args:
+      tuning_method: reviewer_routing
+      freeze_backbone: true
+      dt_axis: hw
+      reviewer_order: 2
+      reviewer_dilations: 1,2,4
+      reviewer_group_size: 16
+      reviewer_shifted: true
+      reviewer_routing: learned_softmax
+      reviewer_temperature: 1.0
+      reviewer_normalize_l1: true
+      dt_gate_mode: fixed
+      dt_gate_init: 0.0
+      dt_padding: replicate
+      dt_use_pointwise: false
+      dt_pw_ratio: 32
+      dt_pw_groups: 4
+      dt_use_bn: false
+      adapt_scale: 1.0
+  pointwise_on:
+    label: Pointwise channel mixing enabled
+    reviewer_control: true
+    args:
+      tuning_method: reviewer_routing
+      freeze_backbone: true
+      dt_axis: hw
+      reviewer_order: 2
+      reviewer_dilations: 1,2,4
+      reviewer_group_size: 16
+      reviewer_shifted: true
+      reviewer_routing: learned_softmax
+      reviewer_temperature: 1.0
+      reviewer_normalize_l1: true
+      dt_gate_mode: learned
+      dt_gate_init: 0.01
+      dt_padding: replicate
+      dt_use_pointwise: true
+      dt_pw_ratio: 32
+      dt_pw_groups: 4
+      dt_use_bn: false
+      adapt_scale: 1.0
+method_order:
+- dt1d
+- dt1d_no_weighted_shift
+- dt1d_no_l1_projection
+- routing_reference
+- direct_symmetric
+- unshared_coefficients
+- height_only
+- fixed_average_routing
+- single_dilation
+- gate_off
+- pointwise_on
+reviewer_coverage:
+  direct_vs_shifted:
+  - routing_reference
+  - direct_symmetric
+  shared_vs_unshared:
+  - routing_reference
+  - unshared_coefficients
+  single_axis_vs_two_axis:
+  - routing_reference
+  - height_only
+  fixed_vs_learned_routing:
+  - routing_reference
+  - fixed_average_routing
+  one_vs_multiple_dilations:
+  - routing_reference
+  - single_dilation
+  gate_on_vs_off:
+  - routing_reference
+  - gate_off
+  pointwise_off_vs_on:
+  - routing_reference
+  - pointwise_on
+  weighted_shift_core:
+  - dt1d
+  - dt1d_no_weighted_shift
+  stability_projection_core:
+  - dt1d
+  - dt1d_no_l1_projection

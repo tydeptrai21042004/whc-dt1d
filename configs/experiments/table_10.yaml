@@ -1,0 +1,139 @@
+schema_version: 4
+experiment_id: table_10
+kind: comparison
+manuscript_tables:
+- 10
+manuscript_figures: []
+description: Self-contained fair-comparison experiment. DT1D-Adapter is the only proposal;
+  all other entries are baselines. Every method uses the same validation-only LR search
+  budget.
+seeds:
+- 0
+- 1
+- 2
+dataset: food101
+backbone: resnet18
+epochs: 10
+batch_size: 32
+fairness:
+  protocol: validation_only_hyperparameter_selection
+  lr_candidates:
+  - 0.0001
+  - 0.0003
+  - 0.001
+  - 0.003
+  - 0.005
+  selection_metric: best_val_acc1
+  selection_mode: max
+  tie_break: lower_lr
+  lr_selection_scope: method_across_seeds
+  lr_aggregation: mean_best_val_acc1
+  evaluate_test_once: true
+  test_used_for_selection: false
+  same_lr_grid_for_all_methods: true
+  same_epoch_budget: true
+  same_batch_size_within_experiment: true
+  same_seed_and_split_within_seed: true
+  same_preprocessing: true
+  same_optimizer: AdamW
+  same_scheduler: cosine
+  keep_unselected_checkpoints: false
+common_args:
+  data_path: data
+  device: cuda
+  weights: DEFAULT
+  input_size: 224
+  imagenet_norm: true
+  imagenet_default_mean_and_std: true
+  update_freq: 1
+  deterministic: true
+  num_workers: 2
+  use_amp: true
+  pin_mem: true
+  dist_eval: false
+  final_test: true
+  save_history: true
+  save_ckpt: true
+  auto_resume: false
+  profile_efficiency: true
+  profile_batch_size: 16
+  measure_eval_latency: true
+  enable_wandb: false
+  val_ratio: 0.2
+  min_lr: 1.0e-06
+  warmup_epochs: 0
+  weight_decay: 0.0001
+  weight_decay_dt1d: 0.0001
+args: {}
+methods:
+  linear:
+    label: Linear probing
+    args:
+      tuning_method: linear
+      freeze_backbone: true
+  bitfit:
+    label: BitFit
+    args:
+      tuning_method: bitfit
+      freeze_backbone: true
+      bitfit_train_head: true
+  ssf:
+    label: SSF
+    args:
+      tuning_method: ssf
+      freeze_backbone: true
+      ssf_init_scale: 1.0
+      ssf_init_shift: 0.0
+  dt1d:
+    label: DT1D-Adapter
+    args:
+      tuning_method: dt1d
+      freeze_backbone: true
+      dt_cache_kernel: true
+  conv_r8:
+    label: Conv-Adapter (r=8)
+    args:
+      tuning_method: conv
+      freeze_backbone: true
+      adapt_size: 8
+      kernel_size: 3
+      adapt_scale: 1.0
+  conv_r6:
+    label: Conv-Adapter (r=6)
+    args:
+      tuning_method: conv
+      freeze_backbone: true
+      adapt_size: 6
+      kernel_size: 3
+      adapt_scale: 1.0
+  conv_r4:
+    label: Conv-Adapter (r=4)
+    args:
+      tuning_method: conv
+      freeze_backbone: true
+      adapt_size: 4
+      kernel_size: 3
+      adapt_scale: 1.0
+  conv_r2:
+    label: Conv-Adapter (r=2)
+    args:
+      tuning_method: conv
+      freeze_backbone: true
+      adapt_size: 2
+      kernel_size: 3
+      adapt_scale: 1.0
+  full:
+    label: Full fine-tuning
+    args:
+      tuning_method: full
+      freeze_backbone: false
+method_order:
+- linear
+- bitfit
+- ssf
+- dt1d
+- conv_r8
+- conv_r6
+- conv_r4
+- conv_r2
+- full
