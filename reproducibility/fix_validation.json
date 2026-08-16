@@ -1,0 +1,50 @@
+{
+  "validated_at": "2026-08-16",
+  "proposal": "DT1D-Adapter",
+  "architecture": "R124-P2-G16-Axis-LearnedGate",
+  "proposal_fingerprint_sha256": "c5a9104df8cb882b75d6176c3730a18d0dd61c2645f4000e654b62e561f14093",
+  "proposal_changed": false,
+  "cross_repo_same_contract": true,
+  "method_contract": {
+    "axes": [
+      "h",
+      "w"
+    ],
+    "group_size": 16,
+    "active_offsets": [
+      1,
+      2,
+      4
+    ],
+    "detail": "normalized_psi4",
+    "weighted_shift_p": 2,
+    "lambda_mode": "learned-axis",
+    "lambda_init": 0.0,
+    "lambda_max_abs": 0.5,
+    "joint_hw_l1_cap": 1.0,
+    "residual_gate": "learned@0.01",
+    "pointwise": false,
+    "padding": "replicate",
+    "base_kernel_size": 9,
+    "effective_kernel_size": 13,
+    "depthwise_convolution_calls": 2
+  },
+  "repository": "tydeptrai21042004/whc-dt1d",
+  "version": "1.7.3",
+  "core_source_sha256": {
+    "models/dt1d_adapter.py": "9c0df0396dc0df8d6c90c12d4c56e2f0d7b13f4f12272f7249e00228ab1f0de7",
+    "models/_dt1d_weighted_core.py": "0a604fb57265b0a73543e43e4dabf277098170f0dc4afd4bf5cac8dd9a797be6",
+    "models/_dt1d_base.py": "a654e441b006c04aaedf4114a3c7977221cd809fd05d7d835a84b8d78a7a7364"
+  },
+  "validation": [
+    "tools/verify_reproducibility_package.py PASS",
+    "tools/validate_dt1d.py PASS",
+    "tools/validate_all_configs.py PASS",
+    "targeted reviewer/reproducibility tests: 14 passed",
+    "classification fake-data smoke training PASS",
+    "dense fake-data smoke training PASS",
+    "compileall PASS",
+    "shell syntax PASS"
+  ],
+  "note": "The complete CNN pytest suite is computationally long in this sandbox; core, contract, reviewer, reproducibility, classification-smoke, and dense-smoke paths were validated individually."
+}

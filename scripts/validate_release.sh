@@ -10,7 +10,7 @@ python -m compileall -q main.py dense_main.py engine.py datasets dense_predictio
 
 # Split the suite into fresh pytest processes. This keeps release validation
 # deterministic and bounds per-process resource accumulation.
-pytest -q \
+python -m pytest -q \
   tests/test_aggregation_seed_enforcement.py \
   tests/test_all_config_validation.py \
   tests/test_baseline_integration.py \
@@ -23,7 +23,7 @@ pytest -q \
   tests/test_execution_order_and_config_inventory.py \
   tests/test_fair_protocol_contract.py
 
-pytest -q \
+python -m pytest -q \
   tests/test_full_linear_trainability.py \
   tests/test_hook_adapter_connectivity.py \
   tests/test_plain_axial_depthwise.py \
@@ -33,7 +33,7 @@ pytest -q \
   tests/test_shell_scripts.py \
   tests/test_three_way_splits.py
 
-pytest -q \
+python -m pytest -q \
   tests/test_amp_dtype_safety.py \
   tests/test_dense_datasets.py \
   tests/test_dense_direct_configs.py \

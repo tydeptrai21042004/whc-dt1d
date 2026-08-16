@@ -8,8 +8,8 @@
   "main_experiments": 15,
   "reviewer_ablation_experiments": 2,
   "main_method_rows": 127,
-  "ablation_method_rows": 22,
-  "parser_validated_method_seed_configs": 447,
+  "ablation_method_rows": 24,
+  "parser_validated_method_seed_configs": 453,
   "dense_experiments": 6,
   "dense_parser_validated_method_seed_configs": 108,
   "ablation_dataset_backbone_pairs": [
