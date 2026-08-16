@@ -89,9 +89,11 @@ class _DT1DWeightedCore(_BaseDT1DAdapter):
                 f"shift_normalization must be one of {_SHIFT_NORMALIZATIONS}"
             )
         lambda_max = float(shift_lambda_max)
-        if lambda_max <= 0:
-            raise ValueError("shift_lambda_max must be > 0")
+        if not math.isfinite(lambda_max) or lambda_max <= 0:
+            raise ValueError("shift_lambda_max must be finite and > 0")
         lambda_init = float(shift_lambda_init)
+        if not math.isfinite(lambda_init):
+            raise ValueError("shift_lambda_init must be finite")
         if abs(lambda_init) > lambda_max + 1e-12:
             raise ValueError(
                 f"|shift_lambda_init| must be <= shift_lambda_max ({lambda_max}), "

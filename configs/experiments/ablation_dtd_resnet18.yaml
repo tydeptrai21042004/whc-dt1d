@@ -4,10 +4,7 @@ kind: ablation
 manuscript_tables:
 - ablation
 manuscript_figures: []
-description: Controlled DT1D-Adapter component ablation. DT1D-Adapter is the only
-  proposal; all other rows are reviewer controls, not alternative proposal methods.
-  Each row uses the same seeds, split, epoch budget, preprocessing, optimizer/scheduler,
-  and validation-only LR grid.
+description: Controlled DT1D-Adapter component ablation. DT1D-Adapter is the only proposal; all other rows are reviewer controls, not alternative proposal methods. Each row uses the same seeds, split, epoch budget, preprocessing, optimizer/scheduler, and validation-only LR grid.
 seeds:
 - 0
 - 1
@@ -71,6 +68,20 @@ methods:
       tuning_method: dt1d
       freeze_backbone: true
       dt_cache_kernel: true
+  previous_plain_axial:
+    label: Earlier plain axial depthwise 1D control (side-by-side)
+    reviewer_control: true
+    args:
+      tuning_method: plain_axial
+      freeze_backbone: true
+      dt_axis: hw
+      axial_kernel_mode: unrestricted
+      axial_project_l1: false
+      dt_gate_mode: learned
+      dt_gate_init: 0.01
+      dt_padding: replicate
+      dt_use_pointwise: false
+      adapt_scale: 1.0
   dt1d_no_weighted_shift:
     label: DT1D core without weighted shift
     reviewer_control: true
@@ -266,6 +277,7 @@ methods:
       adapt_scale: 1.0
 method_order:
 - dt1d
+- previous_plain_axial
 - dt1d_no_weighted_shift
 - dt1d_no_l1_projection
 - routing_reference
@@ -304,3 +316,6 @@ reviewer_coverage:
   stability_projection_core:
   - dt1d
   - dt1d_no_l1_projection
+  previous_version_side_by_side:
+  - dt1d
+  - previous_plain_axial

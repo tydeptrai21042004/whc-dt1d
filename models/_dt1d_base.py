@@ -28,6 +28,11 @@ def _parse_offsets(value: str | Sequence[int] | None) -> Tuple[int, ...]:
         raw = [int(v) for v in text.split(",") if v.strip()]
     else:
         raw = [int(v) for v in value]
+    unknown = sorted(set(raw) - set(_VALID_OFFSETS))
+    if unknown:
+        raise ValueError(
+            f"active_offsets supports only {_VALID_OFFSETS}; got unsupported {unknown}"
+        )
     offsets = tuple(v for v in _VALID_OFFSETS if v in set(raw))
     if not offsets:
         raise ValueError(f"active_offsets must contain at least one of {_VALID_OFFSETS}")
