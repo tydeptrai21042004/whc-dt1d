@@ -8,6 +8,8 @@ from pathlib import Path
 import yaml
 
 ROOT=Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
 
 def main()->int:
@@ -15,7 +17,7 @@ def main()->int:
         'models/dt1d_adapter.py','models/dt1d_ablation_adapter.py',
         'tools/run_experiment.py','tools/run_cnn_paper.py','tools/validate_dt1d.py','tools/validate_all_configs.py',
         'configs/experiments/index.yaml','configs/dense/index.yaml',
-        'requirements.txt','environment.yml','CITATION.cff','README.md','EXPERIMENTS.md','REPRODUCIBILITY.md','DATASETS.md','KAGGLE_RUN_INSTRUCTIONS.md',
+        'requirements.txt','environment.yml','CITATION.cff','codemeta.json','.zenodo.json','proposal_spec.json','proposal_fingerprint.py','README.md','EXPERIMENTS.md','REPRODUCIBILITY.md','DATASETS.md','KAGGLE_RUN_INSTRUCTIONS.md',
     ]
     missing=[x for x in required if not (ROOT/x).is_file()]
     if missing: raise SystemExit('Missing release files: '+', '.join(missing))
@@ -54,6 +56,15 @@ def main()->int:
         assert cfg['fairness']['evaluate_test_once'] is True
         assert cfg['fairness']['lr_selection_scope'] == 'method_across_seeds'
         assert cfg['fairness']['lr_aggregation'] == 'mean_best_val_acc1'
-    print(json.dumps({'status':'PASS','proposal':index['proposal'],'main_experiments':len(index['main_experiments']),'reviewer_ablations':len(index['reviewer_ablations']),'dense_experiments':len(dense_index['experiments'])},indent=2))
+    version=(ROOT/'VERSION').read_text().strip()
+    citation=yaml.safe_load((ROOT/'CITATION.cff').read_text())
+    codemeta=json.loads((ROOT/'codemeta.json').read_text())
+    zenodo=json.loads((ROOT/'.zenodo.json').read_text())
+    assert citation['version']==codemeta['version']==zenodo['version']==version
+    assert citation['repository-code']=='https://github.com/tydeptrai21042004/whc-dt1d'
+    from proposal_contract import proposal_fingerprint
+    assert index['proposal']['architecture']==json.loads((ROOT/'proposal_spec.json').read_text())['architecture']
+    fingerprint=proposal_fingerprint(ROOT)
+    print(json.dumps({'status':'PASS','proposal':index['proposal'],'main_experiments':len(index['main_experiments']),'reviewer_ablations':len(index['reviewer_ablations']),'dense_experiments':len(dense_index['experiments']),'proposal_fingerprint_sha256':fingerprint},indent=2))
     return 0
 if __name__=='__main__': raise SystemExit(main())

@@ -82,6 +82,7 @@ def main() -> int:
         "pointwise_off_vs_on",
         "weighted_shift_core",
         "stability_projection_core",
+        "previous_version_side_by_side",
     }
 
     for name in names:

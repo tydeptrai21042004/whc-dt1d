@@ -48,6 +48,9 @@ from typing import Any
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+from proposal_contract import runtime_metadata
 
 # Method entries may describe model parameterization only. These training/data
 # controls are locked by the experiment-level config so a baseline cannot obtain
@@ -351,6 +354,7 @@ def materialize_final_metadata(
         "independent_seed": int(seed),
         "proposal": method_key == "dt1d",
         "reviewer_control": bool(method.get("reviewer_control", False)),
+        **runtime_metadata(ROOT),
     }
     (seed_dir / "run_metadata.json").write_text(json.dumps(run_metadata, indent=2) + "\n", encoding="utf-8")
 
@@ -366,6 +370,7 @@ def materialize_final_metadata(
         "selected_checkpoint": selected["checkpoint"],
         "lr_selection_scope": "method_across_seeds",
         "args": final_args,
+        **runtime_metadata(ROOT),
     }
     (seed_dir / "resolved_config.json").write_text(
         json.dumps(resolved, indent=2, default=str) + "\n", encoding="utf-8"

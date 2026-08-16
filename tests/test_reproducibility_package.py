@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def test_required_single_proposal_release_files_exist():
     required = [
-        "requirements.txt", "environment.yml", "CITATION.cff", "README.md",
+        "requirements.txt", "environment.yml", "CITATION.cff", "codemeta.json", ".zenodo.json", "proposal_spec.json", "proposal_fingerprint.py", "README.md",
         "REPRODUCIBILITY.md", "models/dt1d_adapter.py",
         "models/dt1d_ablation_adapter.py",
         "tools/run_experiment.py", "tools/run_cnn_paper.py",

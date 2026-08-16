@@ -18,6 +18,7 @@ REQUIRED = {
     "pointwise_off_vs_on",
     "weighted_shift_core",
     "stability_projection_core",
+    "previous_version_side_by_side",
 }
 
 
@@ -29,7 +30,7 @@ def test_reviewer_ablation_is_two_dataset_two_backbone_three_seed():
         assert data["seeds"] == [0, 1, 2]
         assert data["methods"]["dt1d"]["args"]["tuning_method"] == "dt1d"
         assert REQUIRED <= set(data["reviewer_coverage"])
-        assert len(data["methods"]) == 11
+        assert len(data["methods"]) == 12
         for name, spec in data["methods"].items():
             if name != "dt1d":
                 assert spec.get("reviewer_control") is True
