@@ -1,4 +1,4 @@
-# Reference CPU/development environment for DT1D-Adapter v1.7.1.
+# Reference CPU/development environment for DT1D-Adapter v1.7.3.
 # For CUDA, install the matching PyTorch wheel for your CUDA runtime first,
 # then install the remaining packages from requirements-kaggle.txt.
 torch==2.6.0

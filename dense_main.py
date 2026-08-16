@@ -21,6 +21,7 @@ from dense_prediction.engine import (
     train_detection_epoch,
     train_segmentation_epoch,
 )
+from proposal_contract import runtime_metadata
 from dense_prediction.models import build_dense_model, configure_dense_trainability
 
 
@@ -268,6 +269,8 @@ def main(argv=None) -> int:
         "trainable_fraction": counts["trainable_params"] / max(1, counts["total_params"]),
         "task_storage_fp32_mb": counts["trainable_params"] * 4 / 1024**2,
         "task_storage_fp16_mb": counts["trainable_params"] * 2 / 1024**2,
+        "task_head_or_other_trainable_params": int(counts["trainable_params"] - counts.get("adapter_params", 0)),
+        "adapter_fraction_of_total": counts.get("adapter_params", 0) / max(1, counts["total_params"]),
         "peak_train_memory_mb": peak_train_memory,
         "total_train_time_sec": total_train_time,
         "mean_epoch_time_sec": float(np.mean([row["train_epoch_time_sec"] for row in history])),
@@ -295,6 +298,14 @@ def main(argv=None) -> int:
         "checkpoint_selection_rule": "highest validation IoU/mIoU/AP50; test evaluated once at that checkpoint",
         "test_metrics": test_metrics,
         "efficiency": efficiency,
+        "metric_definition": (
+            "binary: foreground-class IoU/Dice and global pixel accuracy from the accumulated confusion matrix"
+            if args.task == "binary_segmentation" else
+            "semantic: macro class mIoU/macro Dice and global pixel accuracy from the accumulated confusion matrix"
+            if args.task == "semantic_segmentation" else
+            "detection sanity check: dependency-free score-ranked AP50/Recall50 at IoU=0.5"
+        ),
+        **runtime_metadata(Path(__file__).resolve().parent),
         "dataset_sizes": {
             "train": len(train_dataset),
             "val": len(val_dataset),

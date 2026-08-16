@@ -28,6 +28,18 @@ The canonical implementation is `models/dt1d_adapter.py`. Its frozen realization
 | Axial convolution calls | 2 |
 
 
+
+## Cross-repository proposal lock
+
+`proposal_spec.json` is the frozen machine-readable method contract shared byte-for-byte with `tydeptrai21042004/whc-vit`. It does not implement the model; it prevents accidental architecture drift.
+
+```bash
+python proposal_fingerprint.py
+python proposal_fingerprint.py --compare /path/to/whc-vit
+```
+
+Every final run records the repository version, Git commit (when the checkout contains `.git`), and proposal-contract SHA256. Inference kernel caching may be enabled for latency measurement; caching changes execution only and not the DT1D operator or learned parameters.
+
 ## Preserved baselines
 
 Previous proposal/compatibility code is removed, but the comparison baselines are preserved. The manuscript configs still contain the same applicable rows for **Full fine-tuning, Linear probing, BitFit, SSF, BAM, LoRA-Conv, Residual Adapter, Side-Tuning, and Conv-Adapter budget variants**. `tests/test_baseline_preservation.py` locks the exact method inventory and order for every main experiment.
@@ -54,7 +66,7 @@ The test split is never used to choose a learning rate, checkpoint, architecture
 python tools/verify_reproducibility_package.py
 python tools/validate_dt1d.py
 python tools/validate_all_configs.py
-pytest -q
+python -m pytest -q
 ```
 
 The release helper additionally performs CPU smoke runs:
@@ -90,7 +102,7 @@ python tools/run_cnn_paper.py \
   --skip-if-complete
 ```
 
-Run reviewer ablations:
+Run reviewer ablations (including the earlier plain axial depthwise side-by-side control requested during review):
 
 ```bash
 python tools/run_cnn_paper.py \

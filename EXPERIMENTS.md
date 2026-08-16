@@ -45,6 +45,7 @@ The controls isolate the requested design questions:
 | One vs multiple dilations | `routing_reference` vs `single_dilation` |
 | Residual gate on vs off | `routing_reference` vs `gate_off` |
 | Pointwise mixing off vs on | `routing_reference` vs `pointwise_on` |
+| Previous plain axial version vs final proposal | `previous_plain_axial` vs `dt1d` |
 | Weighted-shift core | `dt1d` vs `dt1d_no_weighted_shift` |
 | Joint-L1 stability projection | `dt1d` vs `dt1d_no_l1_projection` |
 
