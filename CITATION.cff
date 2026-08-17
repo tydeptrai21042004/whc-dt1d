@@ -12,8 +12,8 @@ authors:
   orcid: https://orcid.org/0009-0007-3223-0248
 repository-code: https://github.com/tydeptrai21042004/whc-dt1d
 url: https://github.com/tydeptrai21042004/whc-dt1d
-version: 1.7.4
-date-released: '2026-08-16'
+version: 1.7.5
+date-released: '2026-08-17'
 license: Apache-2.0
 keywords:
 - parameter-efficient fine-tuning

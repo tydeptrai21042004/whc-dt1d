@@ -4,6 +4,8 @@
 
 ## Main experiment inventory
 
+**Seed policy:** table configs and reviewer ablations use at least three seeds (current release: `0,1,2`); training-based figure configs use exactly one representative seed (current release: `0`).
+
 | Config | Dataset | Backbone | Epochs | Batch | Manuscript target |
 |---|---|---|---:|---:|---|
 | `table_05.yaml` | Flowers102 | ResNet-18 | 10 | 64 | Table 5 |
@@ -72,10 +74,16 @@ python tools/run_experiment.py configs/experiments/table_05.yaml \
   --methods dt1d,linear --seeds 0 --smoke
 ```
 
-All main experiments:
+All table experiments (>=3 seeds):
 
 ```bash
-python tools/run_cnn_paper.py --target all --data-path ./data --device cuda
+python tools/run_cnn_paper.py --target tables --seeds 0,1,2 --data-path ./data --device cuda
+```
+
+All training-based figures (exactly one seed):
+
+```bash
+python tools/run_cnn_paper.py --target figures --seeds 0 --data-path ./data --device cuda
 ```
 
 All reviewer ablations:

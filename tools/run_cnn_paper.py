@@ -18,17 +18,24 @@ INDEX=CONFIG_DIR/"index.yaml"
 
 def parse_names(value:str)->list[str]:
     index=yaml.safe_load(INDEX.read_text(encoding="utf-8"))
+    tables=list(index.get("table_experiments", []))
+    figures=list(index.get("figure_experiments", []))
+    main=list(index.get("main_experiments", tables+figures))
+    if value=="tables":
+        return tables
+    if value=="figures":
+        return figures
     if value=="all":
-        return list(index["main_experiments"])
+        return main
     if value=="ablations":
         return list(index["reviewer_ablations"])
     if value=="all-with-ablations":
-        return list(index["main_experiments"])+list(index["reviewer_ablations"])
+        return main+list(index["reviewer_ablations"])
     return [x.strip() for x in value.split(",") if x.strip()]
 
 def main()->int:
     ap=argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--target",default="all",help="name(s), all, ablations, or all-with-ablations")
+    ap.add_argument("--target",default="all",help="name(s), tables, figures, all, ablations, or all-with-ablations")
     ap.add_argument("--methods",default=None)
     ap.add_argument("--seeds",default=None)
     ap.add_argument("--output-root",type=Path,default=ROOT/"outputs"/"experiments")

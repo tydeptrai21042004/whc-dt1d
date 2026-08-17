@@ -1,4 +1,4 @@
-name: dt1d-adapter-1.7.4
+name: dt1d-adapter-1.7.5
 channels:
 - pytorch
 - nvidia

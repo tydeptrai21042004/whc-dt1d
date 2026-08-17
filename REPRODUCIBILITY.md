@@ -56,7 +56,7 @@ Method-specific config rows may define model structure, such as adapter width, L
 
 ## 5. Seeds and split policy
 
-Main classification and reviewer-ablation configs declare seeds `0,1,2`.
+Classification/reviewer tables declare at least three seeds (the committed release uses `0,1,2`). Training-based manuscript figures declare exactly one representative seed (the committed release uses seed `0`).
 
 - Official train/validation/test partitions are used when available.
 - Datasets with official train and test but no validation split create validation only from the training partition; official test stays untouched.
@@ -95,7 +95,7 @@ python tools/run_experiment.py configs/experiments/table_05.yaml --plan-only
 
 ## 7. Reporting rules
 
-For the manuscript, report mean ± standard deviation across seeds 0,1,2 of the test metric produced after the shared method-level LR selection. Do not report maximum test accuracy observed during training.
+For manuscript tables, report mean ± sample standard deviation across at least three final seeds (the committed release uses 0,1,2) of the test metric produced after validation-only LR selection. For training-based figures, use exactly one representative seed and label it explicitly; do not attach mean/SD to a one-seed figure. Do not report maximum test accuracy observed during training.
 
 Real benchmark tables must be regenerated with the current fair configs. Historical results produced under a different LR or preprocessing protocol must not be mixed into the new comparison table as if they were directly comparable.
 

@@ -23,7 +23,15 @@ def load(path: Path) -> dict[str, Any]:
 
 def assert_fair(cfg: dict[str, Any], path: Path) -> None:
     fairness = cfg["fairness"]
-    assert cfg["seeds"] == [0, 1, 2], f"{path}: paper/reviewer experiments require seeds 0,1,2"
+    seeds = [int(x) for x in cfg["seeds"]]
+    assert seeds and len(seeds) == len(set(seeds)), f"{path}: seeds must be non-empty and unique"
+    policy = cfg.get("seed_policy")
+    if policy == "single_seed_figure":
+        assert len(seeds) == 1, f"{path}: manuscript figures must use exactly one seed"
+    elif policy == "multi_seed_table":
+        assert len(seeds) >= 3, f"{path}: manuscript/reviewer tables require at least three seeds"
+    else:
+        raise AssertionError(f"{path}: unknown or missing seed_policy={policy!r}")
     assert fairness["selection_metric"] == "best_val_acc1", path
     assert fairness["selection_mode"] == "max", path
     assert fairness["tie_break"] == "lower_lr", path
@@ -64,6 +72,7 @@ def main() -> int:
         "architecture": "R124-P2-G16-Axis-LearnedGate",
     }
 
+    assert set(index["main_experiments"]) == set(index["table_experiments"] + index["figure_experiments"]), "main experiment index mismatch"
     names = list(index["main_experiments"]) + list(index["reviewer_ablations"])
     assert len(names) == len(set(names)), "duplicate experiment IDs"
     checked = 0
@@ -144,6 +153,8 @@ def main() -> int:
         "status": "PASS",
         "proposal": index["proposal"],
         "main_experiments": len(index["main_experiments"]),
+        "table_experiments": len(index["table_experiments"]),
+        "figure_experiments": len(index["figure_experiments"]),
         "reviewer_ablation_experiments": len(index["reviewer_ablations"]),
         "main_method_rows": main_rows,
         "ablation_method_rows": ablation_rows,
@@ -151,7 +162,7 @@ def main() -> int:
         "dense_experiments": len(dense_index["experiments"]),
         "dense_parser_validated_method_seed_configs": dense_checked,
         "ablation_dataset_backbone_pairs": ablation_pairs,
-        "protocol": "one shared LR per method selected by mean validation across seeds; test once per seed",
+        "protocol": "tables/reviewer ablations use >=3 seeds; training figures use exactly 1 seed; validation-only LR selection; test once per final seed",
     }
     out = ROOT / "reproducibility" / "config_validation.json"
     out.parent.mkdir(parents=True, exist_ok=True)

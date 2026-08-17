@@ -129,7 +129,7 @@ with the best-validation checkpoint selected within each seed.
 - `configs/experiments/` — one self-contained YAML per classification experiment.
 - `tools/run_experiment.py` — fair validation-selection/test-once runner.
 - `tools/run_cnn_paper.py` — multi-experiment launcher.
-- `tools/aggregate_cnn_paper.py` — three-seed aggregation.
+- `tools/aggregate_cnn_paper.py` — multi-seed table aggregation and single-seed figure summaries.
 - `configs/dense/index.yaml` plus `configs/dense/experiments/*.yaml` — exploratory dense-prediction experiments.
 - `tests/` — unit, protocol, config, split, integration, and smoke tests.
 

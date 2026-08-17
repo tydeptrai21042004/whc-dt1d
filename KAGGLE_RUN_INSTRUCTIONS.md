@@ -54,12 +54,13 @@ The convenience shell script installs dependencies, validates the package, runs 
 ```bash
 DATA_DIR=/kaggle/working/data \
 OUTPUT_ROOT=/kaggle/working/dt1d_revision \
-SEEDS=0,1,2 \
+TABLE_SEEDS=0,1,2 \
+FIGURE_SEED=0 \
 DEVICE=cuda \
-bash KAGGLE_CNN_THREE_SEED_RUN.sh
+bash KAGGLE_CNN_REVIEWER_RUN.sh
 ```
 
-Publication runs require `SEEDS=0,1,2`.
+Publication tables require at least three unique seeds (current release: `0,1,2`); training-based figures require exactly one representative seed (current release: `0`).
 
 ## Plan first
 
