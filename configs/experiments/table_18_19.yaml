@@ -110,3 +110,4 @@ method_order:
 - bam
 - conv_r4
 - full
+seed_policy: multi_seed_table

@@ -137,3 +137,4 @@ method_order:
 - conv_r4
 - conv_r2
 - full
+seed_policy: multi_seed_table

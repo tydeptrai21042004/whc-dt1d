@@ -4,7 +4,10 @@ kind: ablation
 manuscript_tables:
 - ablation
 manuscript_figures: []
-description: Controlled DT1D-Adapter component ablation. DT1D-Adapter is the only proposal; all other rows are reviewer controls, not alternative proposal methods. Each row uses the same seeds, split, epoch budget, preprocessing, optimizer/scheduler, and validation-only LR grid.
+description: Controlled DT1D-Adapter component ablation. DT1D-Adapter is the only
+  proposal; all other rows are reviewer controls, not alternative proposal methods.
+  Each row uses the same seeds, split, epoch budget, preprocessing, optimizer/scheduler,
+  and validation-only LR grid.
 seeds:
 - 0
 - 1
@@ -319,3 +322,4 @@ reviewer_coverage:
   previous_version_side_by_side:
   - dt1d
   - previous_plain_axial
+seed_policy: multi_seed_table

@@ -7,9 +7,7 @@ main_experiments:
 - table_05
 - table_09
 - table_12
-- figure_04
 - table_14_15
-- figure_01
 - table_06
 - table_03
 - table_04
@@ -19,7 +17,27 @@ main_experiments:
 - table_08
 - table_11
 - table_10
+- figure_04
+- figure_01
 reviewer_ablations:
 - ablation_dtd_resnet18
 - ablation_flowers102_resnet50
-protocol: one self-contained YAML per experiment; one shared LR per method selected by mean validation across seeds; test once per seed
+protocol: tables/reviewer ablations use at least three seeds; training-based figures
+  use exactly one seed; validation-only LR selection; test once per final seed
+table_experiments:
+- table_05
+- table_09
+- table_12
+- table_14_15
+- table_06
+- table_03
+- table_04
+- table_18_19
+- table_07
+- table_13
+- table_08
+- table_11
+- table_10
+figure_experiments:
+- figure_04
+- figure_01

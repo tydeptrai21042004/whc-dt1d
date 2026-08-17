@@ -9,8 +9,6 @@ description: Self-contained fair-comparison experiment. DT1D-Adapter is the only
   budget.
 seeds:
 - 0
-- 1
-- 2
 dataset: caltech101
 backbone: resnet18
 epochs: 100
@@ -76,3 +74,4 @@ methods:
       dt_cache_kernel: true
 method_order:
 - dt1d
+seed_policy: single_seed_figure

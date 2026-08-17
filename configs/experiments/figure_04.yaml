@@ -9,8 +9,6 @@ description: Self-contained fair-comparison experiment. DT1D-Adapter is the only
   budget.
 seeds:
 - 0
-- 1
-- 2
 dataset: fgvc_aircraft
 backbone: resnet18
 epochs: 10
@@ -153,3 +151,4 @@ method_order:
 - sidetune
 - conv_r4
 - full
+seed_policy: single_seed_figure
