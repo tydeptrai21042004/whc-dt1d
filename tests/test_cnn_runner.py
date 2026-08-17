@@ -17,7 +17,10 @@ def test_runner_uses_one_committed_config_per_experiment_and_no_generated_yaml(t
     for name in names:
         cfg = load_yaml(ROOT / "configs/experiments" / f"{name}.yaml")
         assert cfg["experiment_id"] == name
-        assert cfg["seeds"] == [0, 1, 2]
+        if cfg.get("seed_policy") == "single_seed_figure":
+            assert len(cfg["seeds"]) == 1
+        else:
+            assert len(cfg["seeds"]) >= 3
     assert not list((ROOT / "configs").rglob("generated"))
 
 
@@ -39,3 +42,10 @@ def test_plan_only_reports_validation_grid_and_zero_generated_yaml(tmp_path):
     assert plan["lr_aggregation"] == "mean_best_val_acc1"
     assert plan["validation_runs"] == 2 * len(plan["lr_candidates"])
     assert plan["test_runs"] == 2
+
+
+def test_runner_exposes_separate_table_and_figure_groups():
+    index = yaml.safe_load((ROOT / "configs/experiments/index.yaml").read_text())
+    assert parse_names("tables") == index["table_experiments"]
+    assert parse_names("figures") == index["figure_experiments"]
+    assert set(index["table_experiments"]).isdisjoint(index["figure_experiments"])

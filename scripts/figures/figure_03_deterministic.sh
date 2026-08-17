@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-python "$ROOT/tools/plot_figure_03_architecture.py"
+OUTPUT_ROOT="${OUTPUT_ROOT:-$ROOT/outputs/cnn_paper_revision}"
+python "$ROOT/tools/plot_figure_03_architecture.py" --output "$OUTPUT_ROOT/figures/figure_03_dt1d_architecture.png"

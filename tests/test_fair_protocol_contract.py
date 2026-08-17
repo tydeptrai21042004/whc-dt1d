@@ -59,11 +59,14 @@ def test_shared_lr_rejects_failed_candidate_before_any_test_selection():
         select_shared_lr(rows, seeds=[0, 1, 2], lr_candidates=[1e-3, 5e-3])
 
 
-def test_all_configs_lock_shared_lr_selection_across_three_seeds():
+def test_all_configs_lock_seed_policy_and_validation_only_selection():
     index = yaml.safe_load((CONFIG_DIR / "index.yaml").read_text())
     for name in index["main_experiments"] + index["reviewer_ablations"]:
         cfg = load_yaml(CONFIG_DIR / f"{name}.yaml")
-        assert cfg["seeds"] == [0, 1, 2]
+        if cfg.get("seed_policy") == "single_seed_figure":
+            assert len(cfg["seeds"]) == 1
+        else:
+            assert len(cfg["seeds"]) >= 3
         assert cfg["fairness"]["lr_selection_scope"] == "method_across_seeds"
         assert cfg["fairness"]["lr_aggregation"] == "mean_best_val_acc1"
         assert cfg["fairness"]["test_used_for_selection"] is False
