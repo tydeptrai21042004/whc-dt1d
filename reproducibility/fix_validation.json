@@ -1,5 +1,5 @@
 {
-  "validated_at": "2026-08-16",
+  "validated_at": "2026-08-17",
   "proposal": "DT1D-Adapter",
   "architecture": "R124-P2-G16-Axis-LearnedGate",
   "proposal_fingerprint_sha256": "c5a9104df8cb882b75d6176c3730a18d0dd61c2645f4000e654b62e561f14093",
@@ -30,11 +30,11 @@
     "depthwise_convolution_calls": 2
   },
   "repository": "tydeptrai21042004/whc-dt1d",
-  "version": "1.7.3",
+  "version": "1.7.5",
   "core_source_sha256": {
     "models/dt1d_adapter.py": "9c0df0396dc0df8d6c90c12d4c56e2f0d7b13f4f12272f7249e00228ab1f0de7",
-    "models/_dt1d_weighted_core.py": "0a604fb57265b0a73543e43e4dabf277098170f0dc4afd4bf5cac8dd9a797be6",
-    "models/_dt1d_base.py": "a654e441b006c04aaedf4114a3c7977221cd809fd05d7d835a84b8d78a7a7364"
+    "models/_dt1d_weighted_core.py": "6a33a6902d5fc2c1bec1cd3065be66427dcf7f1a18e4e7081bd34f59c4d81dd0",
+    "models/_dt1d_base.py": "6365526d4e07f82cd9daf9d4ebd740c6a85bf488a1d8976c47f62a0ca07b27aa"
   },
   "validation": [
     "tools/verify_reproducibility_package.py PASS",
@@ -44,7 +44,8 @@
     "classification fake-data smoke training PASS",
     "dense fake-data smoke training PASS",
     "compileall PASS",
-    "shell syntax PASS"
+    "shell syntax PASS",
+    "mixed publication seed policy validated: figures=1 seed, tables>=3 seeds"
   ],
   "note": "The complete CNN pytest suite is computationally long in this sandbox; core, contract, reviewer, reproducibility, classification-smoke, and dense-smoke paths were validated individually."
 }

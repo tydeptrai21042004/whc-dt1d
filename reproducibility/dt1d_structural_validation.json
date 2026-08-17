@@ -28,7 +28,7 @@
     "lambda_grad_l1": 0.00025754558737389743,
     "gate_grad_abs": 0.07707948982715607,
     "weighted_convolution_max_error": 4.440892098500626e-16,
-    "spectral_identity_max_error": 1.389554002205336e-14
+    "spectral_identity_max_error": 1.37882369488729e-14
   },
   "parameter_check": {
     "c64": 43,
